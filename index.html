@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D Box with Text & Video Behind</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background: #fff;
+      perspective: 1000px;
+      flex-direction: column;
+      gap: 50px;
+    }
+
+    .scene {
+      width: 150px;
+      height: 150px;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateX(-10deg) rotateY(45deg);
+    }
+
+    .box {
+      position: absolute;
+      width: var(--width);
+      height: var(--height);
+    }
+
+    /* Warna sisi */
+    .front { transform: rotateY(0deg) translateZ(calc(var(--depth) / 2)); background: #efa0fa; }
+    .back { transform: rotateY(180deg) translateZ(calc(var(--depth) / 2)); background: #f1c40f; }
+    .left { transform: rotateY(-90deg) translateZ(calc(var(--depth) / 2)); background: #ed68ff; }
+    .right { transform: rotateY(90deg) translateZ(calc(var(--depth) / 2)); background: #9b59b6; }
+    .top { transform: rotateX(-90deg) translateZ(calc(var(--height) / 2)); background: #a3ff6e; }
+    .bottom { transform: rotateX(90deg) translateZ(calc(var(--height) / 2)); background: #9a1daa; }
+
+    /* Tanda ? di tengah sisi */
+    .front::after, .back::after, .left::after, .right::after {
+      content: "?";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 60px;
+      color: #ffffff;
+      pointer-events: none;
+    }
+
+    /* Ukuran box */
+    #scene2 {
+      --height: 150px;
+      --width: 150px;
+      --depth: 150px;
+    }
+
+    /* Animasi melompat */
+    @keyframes jumpBounce {
+      0% { transform: rotateX(-10deg) rotateY(45deg) translateY(0); }
+      30% { transform: rotateX(-10deg) rotateY(45deg) translateY(-20px); }
+      50% { transform: rotateX(-10deg) rotateY(45deg) translateY(0); }
+      70% { transform: rotateX(-10deg) rotateY(45deg) translateY(-10px); }
+      100% { transform: rotateX(-10deg) rotateY(45deg) translateY(0); }
+    }
+
+    .jump { animation: jumpBounce 0.6s ease-in-out; }
+
+    /* Teks pesan */
+    .message {
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      padding: 8px 18px;
+      border-radius: 5px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      color: #333;
+      opacity: 0;
+      white-space: nowrap;
+      transform: translate(-50%, 50%) scaleX(0) rotateY(-45deg);
+      transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+      z-index: 10; /* Teks berada di atas */
+    }
+
+    .message a {
+      color: #111;
+      text-decoration: none;
+    }
+
+    /* Kelas untuk menampilkan teks */
+    .show-text {
+      opacity: 1;
+      transform: translate(-50%, -300%)  ;
+    }
+
+    /* Video poper (posisi di belakang teks) */
+    .poper {
+      position: relative;
+      margin-top: 300px;
+      bottom: 40%;
+      left: 50%;
+      transform: translate(-50%, -300%) scale(0);
+      z-index: 0; /* Video berada di belakang */
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+      margin-top: 350px;
+    }
+
+    /* Kelas untuk menampilkan video */
+    .poper.show-video {
+      opacity: 1;
+      transform: translate(-50%, -300%) scale(1);
+    }
+
+    .poper video {
+      width: 1000px; /* Perbesar video hingga 50% lebih besar dari sebelumnya */
+      height: auto;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="scene" id="scene2">
+    <div class="box front"></div>
+    <div class="box back"></div>
+    <div class="box left"></div>
+    <div class="box right"></div>
+    <div class="box top"></div>
+    <div class="box bottom"></div>
+    
+    <!-- Pesan -->
+    <div class="message" id="message">
+      <a href="#">Love You Sayang ♥</a>
+    </div>
+
+    <!-- Video di belakang teks -->
+    <div class="poper" id="poper">
+        <video autoplay muted loop controls>
+          <source src="aset/poper.mp4" type="video/mp4">
+          Browser Anda tidak mendukung tag video.
+        </video>
+    </div>
+  </div>
+
+  <script>
+    const scene = document.getElementById('scene2');
+    const message = document.getElementById('message');
+    const poper = document.getElementById('poper');
+
+    scene.addEventListener('click', () => {
+      scene.classList.add('jump');
+
+      setTimeout(() => {
+        if (message.classList.contains('show-text')) {
+          message.classList.remove('show-text');
+          poper.classList.remove('show-video');
+        } else {
+          message.classList.add('show-text');
+          poper.classList.add('show-video');
+        }
+      }, 600);
+    });
+
+    scene.addEventListener('animationend', () => {
+      scene.classList.remove('jump');
+    });
+  </script>
+</body>
+</html>
