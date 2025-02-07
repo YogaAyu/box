@@ -100,17 +100,46 @@
                 /* #8c52ff,
                 #5ce1e6
             ); */
-            background: linear-gradient(135deg, #fffbee, #ffac33, #ffe78f);
+            /* background: linear-gradient(135deg, #fffbee, #ffac33, #ffe78f);
             animation: shine 3s infinite linear;
             background-size: 200% 200%; 
+            color: #fff; */
             color: #fff;
+            position: relative;
+            background: linear-gradient(135deg, #FFD700, #FFA500, #FF4500);
+            background-size: 300% 300%;
+            animation: shineMove 5s infinite linear;
+            overflow: hidden;
         }
 
-        @keyframes shine {
+        /* @keyframes shine {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
-}
+} */
+
+        .card-front::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0.2) 80%);
+            transform: skewX(-20deg);
+            animation: shimmer 3s infinite linear;
+        }
+
+        @keyframes shineMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes shimmer {
+            0% { left: -150%; }
+            100% { left: 150%; }
+        }
 
         .card-back {
             background-color: #f1f1f1;
