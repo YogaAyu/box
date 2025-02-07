@@ -3,188 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Card Pilihan</title>
+    <title>Document</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Birthstone&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Bangers&family=Bebas+Neue&family=Birthstone&family=Faculty+Glyphic&family=Kaushan+Script&family=Lora:ital,wght@0,400..700;1,400..700&family=Oswald:wght@200..700&family=Parisienne&family=Pinyon+Script&family=Playball&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Satisfy&family=Squada+One&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: rgb(238, 238, 238);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            display: grid;
             justify-content: center;
+            align-items: center;
             height: 100vh;
-            text-align: center;
-            padding: 20px;
         }
 
         .judul {
+            text-align: center;
+            font-size: 12px;
             font-family: "Birthstone", serif;
+            font-weight: 400;
+            font-style: normal;
         }
 
         .judul p {
-            font-size: 14px;
+            font-size: 10px;
+            margin-right: 20px;
+            margin-left: 20px;
             font-family: "Arvo", serif;
-            margin: 10px 20px;
+            font-weight: 400;
+            font-style: normal;
         }
 
-        .judul .warning {
+        .judul p.warning {
             color: red;
+            font-family: "Arvo", serif;
+            font-weight: 400;
             font-style: italic;
         }
 
         .container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 20px;
+            gap: 10px;
+            overflow-x: hidden;
+            margin-bottom: 100px;
         }
 
         .card {
-            position: relative;
-            width: 120px;
-            height: 180px;
-            perspective: 1000px;
+            background-color: #fff;
+            width: 100px;
+            height: 150px;
+            border: #111 solid;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 7px;
+            margin-right: 7px;
+            margin-top: 7px;
+            margin-bottom: 7px;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+            font-size: 25px;
+            perspective: 1000px; /* Menambahkan perspektif untuk rotasi */
         }
 
         .card-inner {
             width: 100%;
             height: 100%;
             transform-style: preserve-3d;
-            transition: transform 0.6s ease-in-out;
+            transition: transform 0.6s;
             position: relative;
         }
 
         .card:hover .card-inner {
-            transform: rotateY(180deg);
+            transform: rotateY(180deg); /* Efek rotasi saat card di hover */
         }
 
         .card-front, .card-back {
             position: absolute;
             width: 100%;
             height: 100%;
-            backface-visibility: hidden;
+            backface-visibility: hidden; /* Menyembunyikan sisi belakang saat rotasi */
             display: flex;
             justify-content: center;
             align-items: center;
             border-radius: 10px;
-            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         .card-front {
-            background: linear-gradient(135deg, #FFD700, #FFA500, #FF4500);
-            background-size: 300% 300%;
-            animation: shineMove 8s infinite linear;
-            font-size: 32px;
-            font-weight: bold;
-            color: white;
+            /* background-image: linear-gradient(
+                to bottom,  */
+                /* #4e73df,   
+                #2a5b8d,   
+                #5f4b8b,   
+                #7a57a5,   
+                #9b59b6    */
+                /* #8c52ff,
+                #5ce1e6
+            ); */
+            background: linear-gradient(135deg, #fff0ba, #ffac33, #ffe78f);
+            animation: shine 3s infinite linear;
+            background-size: 200% 200%; 
+            color: #fff;
         }
 
-        .card-front::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -150%;
-            width: 200%;
-            height: 100%;
-            background: linear-gradient(120deg, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0.2) 80%);
-            transform: skewX(-20deg);
-            animation: shimmer 6s infinite linear;
-        }
-
-        @keyframes shineMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes shimmer {
-            0% { left: -150%; }
-            100% { left: 150%; }
-        }
+        @keyframes shine {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
 
         .card-back {
-            background-color: white;
-            transform: rotateY(180deg);
+            background-color: #f1f1f1;
+            transform: rotateY(180deg); /* Memutar sisi belakang card */
             border-radius: 10px;
         }
 
-        .card-back img {
+        .card img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
             border-radius: 10px;
-            padding: 10px;
+            image-rendering: crisp-edges;
+            object-fit: cover;
         }
 
     </style>
 </head>
 <body>
-
     <div class="judul">
         <h1>Hai Ayu Wandira</h1>
-        <p>Pilih salah satu dari beberapa card di bawah ini. Jika sudah, screenshot dan kirim ke cowo kamu!</p>
-        <p class="warning">"Ingat harus jujur! Sudah pilih satu, jangan pilih lagi!"</p>
+        <p>Pilih salah satu dari beberapa card dibawah ini, nanti kamu akan mendapatkan hadiah, jika sudah screenshoot lalu kirim ke cowo kamu </p>
+        <p class="warning">"Ingat harus jujur tidak boleh bohong, sudah pilih satu, jangan pilih lagi !!!"</p>
     </div>
 
     <div class="container">
         <div class="card">
             <div class="card-inner">
                 <div class="card-front">?</div>
-                <div class="card-back"><img src="aset/pakaian.png"></div>
+                <div class="card-back">
+                    <img src="aset/pakaian.png">
+                </div>
             </div>
         </div>
         <div class="card">
             <div class="card-inner">
                 <div class="card-front">?</div>
-                <div class="card-back"><img src="aset/100.png"></div>
+                <div class="card-back">
+                    <img src="aset/100.png">
+                </div>
             </div>
         </div>
         <div class="card">
             <div class="card-inner">
                 <div class="card-front">?</div>
-                <div class="card-back"><img src="aset/nonton.png"></div>
+                <div class="card-back">
+                    <img src="aset/nonton.png" >
+                </div>
             </div>
         </div>
         <div class="card">
             <div class="card-inner">
                 <div class="card-front">?</div>
-                <div class="card-back"><img src="aset/makan.png"></div>
+                <div class="card-back">
+                    <img src="aset/makan.png">
+                </div>
             </div>
         </div>
         <div class="card">
             <div class="card-inner">
                 <div class="card-front">?</div>
-                <div class="card-back"><img src="aset/50.png"></div>
+                <div class="card-back">
+                    <img src="aset/50.png" >
+                </div>
             </div>
         </div>
         <div class="card">
             <div class="card-inner">
                 <div class="card-front">?</div>
-                <div class="card-back"><img src="aset/zonk.png"></div>
+                <div class="card-back">
+                    <img src="aset/zonk.png" >
+                </div>
             </div>
         </div>
         <div class="card">
             <div class="card-inner">
                 <div class="card-front">?</div>
-                <div class="card-back"><img src="aset/coklat.png"></div>
+                <div class="card-back">
+                    <img src="aset/coklat.png" >
+                </div>
             </div>
         </div>
         <div class="card">
             <div class="card-inner">
                 <div class="card-front">?</div>
-                <div class="card-back"><img src="aset/facial.png"></div>
+                <div class="card-back">
+                    <img src="aset/facial.png" >
+                </div>
             </div>
         </div>
         <div class="card">
             <div class="card-inner">
                 <div class="card-front">?</div>
-                <div class="card-back"><img src="aset/botol.png"></div>
+                <div class="card-back">
+                    <img src="aset/botol.png" >
+                </div>
             </div>
         </div>
     </div>
-
 </body>
 </html>
