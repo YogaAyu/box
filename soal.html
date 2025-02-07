@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Interaktif</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+        .quiz-container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+        .quiz-container h2 {
+            font-size: 15px;
+        }
+        .question {
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        .options label {
+            display: block;
+            margin: 5px 0;
+            padding: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .options input {
+            display: none;
+        }
+        .options label:hover {
+            background: #ccc;
+        }
+        .selected {
+            background: #4CAF50 !important; /* Warna hijau saat dipilih */
+            color: white;
+        }
+        .submit-btn {
+            margin-top: 20px;
+            padding: 10px;
+            background: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        .submit-btn:disabled {
+            background: gray;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .correct {
+            color: green;
+        }
+        .wrong {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <h2>Sebelum ke halaman hadiah jawab dulu pertanyaan dibawah ini !!!</h2>
+
+        <div class="question">
+            1. Tanggal berapa kita jadian?
+        </div>
+        <div class="options">
+            <label><input type="radio" name="q1" value="A"> 5 Maret 2024</label>
+            <label><input type="radio" name="q1" value="B"> 5 Mei 2025</label>
+            <label><input type="radio" name="q1" value="C"> 5 Mei 2024</label>
+        </div>
+
+        <div class="question">
+            2. Hari dan tanggal berapa pertama kali ketemuan ?
+        </div>
+        <div class="options">
+            <label><input type="radio" name="q2" value="A"> Jum'at 6 Februari 2024</label>
+            <label><input type="radio" name="q2" value="B"> Jum'at 9 Februari 2024</label>
+            <label><input type="radio" name="q2" value="C"> Sabtu 9 Februari 2024</label>
+        </div>
+
+        <div class="question">
+            3. Dimana pertama kali kita ketemu ?
+        </div>
+        <div class="options">
+            <label><input type="radio" name="q3" value="A"> Ammar Suvarna</label>
+            <label><input type="radio" name="q3" value="B"> Malebo Bonang</label>
+            <label><input type="radio" name="q3" value="C"> Tangcity</label>
+        </div>
+
+        <div class="question">
+            4. Tanggal berapa cowo kamu berulang tahun?
+        </div>
+        <div class="options">
+            <label><input type="radio" name="q4" value="A"> 20 Mei 2003</label>
+            <label><input type="radio" name="q4" value="B"> 5 Mei 2002</label>
+            <label><input type="radio" name="q4" value="C"> 20 Mei 2002</label>
+        </div>
+
+        <div class="question">
+            5. Makanan apa yang cowo kamu suka ?
+        </div>
+        <div class="options">
+            <label><input type="radio" name="q5" value="A"> Nasi Goreng</label>
+            <label><input type="radio" name="q5" value="B"> Mie Goreng</label>
+            <label><input type="radio" name="q5" value="C"> Bakso</label>
+        </div>
+
+        <button class="submit-btn" onclick="checkAnswers()">Submit</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        // Fungsi untuk mengatur warna pilihan saat dipilih
+        document.querySelectorAll(".options input").forEach(input => {
+            input.addEventListener("change", function() {
+                let name = this.name;
+                let options = document.querySelectorAll(`input[name="${name}"]`);
+                
+                // Reset semua label pada pertanyaan yang sama
+                options.forEach(opt => opt.parentElement.classList.remove("selected"));
+
+                // Tambahkan warna hijau ke jawaban yang baru dipilih
+                this.parentElement.classList.add("selected");
+            });
+        });
+
+        function checkAnswers() {
+            let answers = {
+                q1: "C", // 5 Mei 2024
+                q2: "B", // Jum'at 9 Februari 2024
+                q3: "A", // Ammar Suvarna
+                q4: "C", // 20 Mei 2002
+                q5: "B"  // Mie Goreng
+            };
+
+            let resultText = "";
+            let allCorrect = true;
+
+            for (let key in answers) {
+                let selected = document.querySelector(`input[name="${key}"]:checked`);
+                if (!selected) {
+                    alert("Harap jawab semua pertanyaan sebelum submit!");
+                    return;
+                }
+
+                if (selected.value === answers[key]) {
+                    resultText += `Soal ${key.substring(1)}: <span class="correct">Jawaban Benar ✅</span><br>`;
+                } else {
+                    resultText += `Soal ${key.substring(1)}: <span class="wrong">Jawaban Salah ❌</span><br>`;
+                    allCorrect = false;
+                }
+            }
+
+            document.getElementById("result").innerHTML = resultText;
+
+            if (allCorrect) {
+                alert("Selamat! Semua jawaban benar. Anda akan dialihkan ke halaman hadiah.");
+                window.location.href = "card.html"; // Ganti dengan URL halaman hadiah
+            } else {
+                alert("Jawaban masih ada yang salah. Silakan coba lagi!");
+            }
+        }
+    </script>
+
+</body>
+</html>
